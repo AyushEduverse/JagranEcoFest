@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2D5A27"/>
+      <stop offset="100%" stop-color="#3D7A35"/>
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="48" fill="#1A2F18"/>
+  <circle cx="50" cy="50" r="44" fill="url(#leafGrad)"/>
+  <!-- Leaf shape -->
+  <path d="M50 15 C28 15 18 40 22 62 C37 45 58 45 78 62 C82 40 72 15 50 15Z"
+        fill="#FFFFFF" opacity="0.92"/>
+  <!-- Leaf vein -->
+  <path d="M50 22 L50 72" stroke="#1A2F18" stroke-width="2.5" stroke-linecap="round" opacity="0.25"/>
+  <!-- Side veins -->
+  <path d="M50 35 C43 38 38 42 34 48" stroke="#1A2F18" stroke-width="1.8" stroke-linecap="round" opacity="0.18" fill="none"/>
+  <path d="M50 42 C44 44 40 48 37 55" stroke="#1A2F18" stroke-width="1.5" stroke-linecap="round" opacity="0.15" fill="none"/>
+  <path d="M50 35 C57 38 62 42 66 48" stroke="#1A2F18" stroke-width="1.8" stroke-linecap="round" opacity="0.18" fill="none"/>
+  <path d="M50 42 C56 44 60 48 63 55" stroke="#1A2F18" stroke-width="1.5" stroke-linecap="round" opacity="0.15" fill="none"/>
+</svg>

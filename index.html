@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>JagranEcoFest 2026 — World Environment Day Registration</title>
+  <meta name="description" content="Register for World Environment Day 2026 competitions at Jagran College of Arts, Science and Commerce. Poster/Slogan Making & Quiz Competition — 5th June 2026." />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" sizes="any" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Preconnect to CDNs for faster resource loading -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ============================================================
+     LOADING OVERLAY
+============================================================ -->
+<div id="loading-overlay" class="hidden">
+  <i class="fa-solid fa-spinner fa-spin"></i>
+  <p id="loading-text">Checking…</p>
+</div>
+
+<!-- ============================================================
+     BOTTOM SHEETS
+============================================================ -->
+<div class="sheet-backdrop" id="sheetBackdrop" onclick="closeSheet()"></div>
+
+<div class="bottom-sheet" id="rulesSheet">
+  <div class="sheet-handle-wrap"><div class="sheet-handle"></div></div>
+  <div class="sheet-header">
+    <i class="fa-solid fa-book-open"></i>
+    <h3 class="sheet-title" id="rulesSheetTitle">Rules</h3>
+  </div>
+  <div class="sheet-content" id="rulesSheetContent"></div>
+  <button class="btn-primary sheet-close" onclick="closeSheet()">
+    <i class="fa-solid fa-xmark"></i> Close
+  </button>
+</div>
+
+<!-- ============================================================
+     ERROR TOAST
+============================================================ -->
+<div class="toast hidden" id="errorToast">
+  <i class="fa-solid fa-triangle-exclamation fa-lg"></i>
+  <span class="toast-text">Something went wrong. Check your connection and retry.</span>
+  <button class="toast-retry" onclick="retrySubmit()">Retry</button>
+</div>
+
+
+<!-- ================================================================
+     SCREEN 1 — WELCOME / LANDING (Redesigned Hero)
+================================================================ -->
+<div class="screen active" id="s1">
+  <div class="hero hero-image">
+    <div class="hero-overlay"></div>
+
+    <!-- Animated leaf SVGs -->
+    <div class="hero-leaves">
+      <svg class="hero-leaf" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M40 5 C15 5, 2 35, 8 62 C28 42, 62 42, 72 62 C78 35, 65 5, 40 5Z" fill="white" opacity="0.12"/>
+      </svg>
+      <svg class="hero-leaf" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M30 4 C12 4, 2 26, 6 46 C20 32, 46 32, 54 46 C58 26, 48 4, 30 4Z" fill="white" opacity="0.10"/>
+      </svg>
+      <svg class="hero-leaf" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M25 3 C10 3, 1 21, 5 38 C17 27, 38 27, 45 38 C49 21, 40 3, 25 3Z" fill="white" opacity="0.08"/>
+      </svg>
+      <svg class="hero-leaf" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M35 4 C14 4, 2 30, 7 55 C25 36, 55 36, 63 55 C68 30, 56 4, 35 4Z" fill="white" opacity="0.11"/>
+      </svg>
+      <svg class="hero-leaf" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 3 C9 3, 1 19, 4 34 C15 24, 34 24, 41 34 C44 19, 36 3, 22 3Z" fill="white" opacity="0.09"/>
+      </svg>
+    </div>
+
+    <div class="hero-fade"></div>
+
+    <div class="hero-content">
+      <h1 class="hero-title">World Environment<br />Day 2026</h1>
+      <div class="hero-badge">
+        <i class="fa-solid fa-calendar-days"></i>
+        5th June 2026
+      </div>
+      <p class="hero-tagline">"Not Me But You"</p>
+    </div>
+  </div>
+
+  <!-- Wave divider -->
+  <div class="wave-divider">
+    <svg viewBox="0 0 430 40" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,20 C80,40 200,0 430,20 L430,0 L0,0 Z" fill="#1A2F18"/>
+      <path d="M0,30 C100,10 280,50 430,28 L430,40 L0,40 Z" fill="#F5F0E8"/>
+    </svg>
+  </div>
+
+
+
+  <!-- ===== Scrollable Content Section ===== -->
+  <div class="screen-body s1-body">
+    
+    <!-- Dear Students Welcome Card -->
+    <div class="welcome-card">
+      <div class="welcome-icon-wrap">
+        <i class="fa-solid fa-feather-pointed"></i>
+      </div>
+      <h2 class="welcome-heading">Dear Students</h2>
+      <p class="welcome-text">
+        On the occasion of <strong>World Environment Day, 5th June 2026</strong>, our college is organizing an exciting event to celebrate and protect Mother Nature!
+      </p>
+      <p class="welcome-text">
+        Are you ready to showcase your creativity and knowledge for our planet?
+      </p>
+      <p class="welcome-text welcome-highlight">
+        If you want to make a difference, this is your chance!
+      </p>
+      <div class="welcome-divider"></div>
+      <div class="welcome-nss">
+        <i class="fa-solid fa-leaf"></i>
+        <span>NSS — Not Me But You</span>
+      </div>
+    </div>
+
+    <!-- Competitions Overview -->
+    <div class="s1-section">
+      <h3 class="s1-section-title">
+        <i class="fa-solid fa-trophy"></i>
+        Competitions
+      </h3>
+
+      <div class="overview-card">
+        <div class="overview-icon" style="background:linear-gradient(135deg,#C4874A,#8B6914);">
+          <i class="fa-solid fa-palette"></i>
+        </div>
+        <div class="overview-info">
+          <div class="overview-title">Poster &amp; Slogan Making</div>
+          <div class="overview-desc">Express your thoughts in powerful words &amp; creativity</div>
+        </div>
+      </div>
+
+      <div class="overview-card">
+        <div class="overview-icon" style="background:linear-gradient(135deg,#2D5A27,#1A2F18);">
+          <i class="fa-solid fa-brain"></i>
+        </div>
+        <div class="overview-info">
+          <div class="overview-title">Quiz Competition</div>
+          <div class="overview-desc">Test your knowledge about nature, wildlife &amp; climate change</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NSS Notice -->
+    <div class="nss-card">
+      <div class="nss-card-icon">
+        <i class="fa-solid fa-hand-holding-heart"></i>
+      </div>
+      <h4 class="nss-card-title">NSS — National Service Scheme</h4>
+      <p class="nss-card-text">
+        If you are interested in participating, please inform your respective Coordinator/teacher by <strong>30th May 2026</strong> to ensure your entries for the competitions.
+      </p>
+      <div class="nss-footer">
+        <i class="fa-solid fa-leaf"></i>
+        <span>"Not Me But You"</span>
+      </div>
+    </div>
+
+    <!-- Deadline Chip -->
+    <div class="deadline-chip" style="margin-bottom:20px;">
+      <i class="fa-solid fa-clock" style="color:var(--amber);"></i>
+      Last date to register: <strong>30 May 2026</strong>
+    </div>
+
+    <!-- CTA -->
+    <button class="btn-primary" onclick="startApp()" id="startBtn">
+      Get Started <i class="fa-solid fa-arrow-right"></i>
+    </button>
+
+    <p class="s1-footer-note">
+      <i class="fa-solid fa-qrcode"></i>
+      Share this link with your friends &amp; batchmates!
+    </p>
+  </div>
+</div>
+
+<!-- ================================================================
+     SCREEN 2 — CHOOSE COMPETITION
+================================================================ -->
+<div class="screen" id="s2">
+  <div class="nav-bar">
+    <button class="nav-back" onclick="navigate('s1')" aria-label="Back">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <div class="nav-info">
+      <div class="nav-step">Step 1 of 4</div>
+      <div class="nav-title">Choose Competition</div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
+  </div>
+
+  <div class="screen-scroll">
+    <h2 class="screen-title" style="margin-top:16px;">Which event are you entering?</h2>
+    <p class="screen-subtitle">Select one or both competitions. Tap "View Rules" to read guidelines.</p>
+
+    <!-- Poster/Slogan Card -->
+    <div class="comp-card" id="card-poster" onclick="selectComp('poster', event)">
+      <div class="comp-icon-wrap" style="background:linear-gradient(135deg,#C4874A,#8B6914);">
+        <i class="fa-solid fa-palette"></i>
+      </div>
+      <div class="comp-card-info">
+        <div class="comp-card-title">Poster &amp; Slogan Making</div>
+        <div class="comp-card-sub">Express your thoughts in powerful words &amp; creativity</div>
+        <button class="btn-view-rules" onclick="openSheet('poster'); event.stopPropagation()">
+          <i class="fa-solid fa-circle-info"></i> View Rules
+        </button>
+      </div>
+      <i class="fa-solid fa-circle-check comp-card-check"></i>
+    </div>
+
+    <!-- Quiz Card -->
+    <div class="comp-card" id="card-quiz" onclick="selectComp('quiz', event)">
+      <div class="comp-icon-wrap" style="background:linear-gradient(135deg,#2D5A27,#1A2F18);">
+        <i class="fa-solid fa-brain"></i>
+      </div>
+      <div class="comp-card-info">
+        <div class="comp-card-title">Quiz Competition</div>
+        <div class="comp-card-sub">Test your knowledge about nature, wildlife &amp; climate change</div>
+        <button class="btn-view-rules" onclick="openSheet('quiz'); event.stopPropagation()">
+          <i class="fa-solid fa-circle-info"></i> View Rules
+        </button>
+      </div>
+      <i class="fa-solid fa-circle-check comp-card-check"></i>
+    </div>
+
+    <!-- Both Card -->
+    <div class="comp-card" id="card-both" onclick="selectComp('both', event)">
+      <div class="comp-icon-wrap" style="background:linear-gradient(135deg,#D4A017,#8B6914);">
+        <i class="fa-solid fa-star"></i>
+      </div>
+      <div class="comp-card-info">
+        <div class="comp-card-title">Both Competitions</div>
+        <div class="comp-card-sub">Enter both events &amp; compete in all</div>
+        <button class="btn-view-rules" onclick="openSheet('quiz'); event.stopPropagation()">
+          <i class="fa-solid fa-circle-info"></i> View Rules
+        </button>
+      </div>
+      <i class="fa-solid fa-circle-check comp-card-check"></i>
+    </div>
+
+    <span class="input-error hidden" id="compError" style="margin-top:4px;display:block;">
+      Please select at least one competition.
+    </span>
+  </div>
+
+  <div class="sticky-cta">
+    <button class="btn-primary" onclick="continueFromS2()" id="s2Btn">
+      Continue <i class="fa-solid fa-arrow-right"></i>
+    </button>
+  </div>
+</div>
+
+<!-- ================================================================
+     SCREEN 3 — YOUR DETAILS + GET CHECK
+================================================================ -->
+<div class="screen" id="s3">
+  <div class="nav-bar">
+    <button class="nav-back" onclick="navigate('s2')" aria-label="Back">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <div class="nav-info">
+      <div class="nav-step">Step 2 of 4</div>
+      <div class="nav-title">Your Details</div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+  </div>
+
+  <div class="screen-scroll">
+    <h2 class="screen-title" style="margin-top:16px;">Tell us about yourself</h2>
+    <p class="screen-subtitle">Your name and batch help us identify your entry accurately.</p>
+
+
+
+    <div class="input-group">
+      <label class="input-label" for="nameInput">Full Name</label>
+      <div class="input-wrapper">
+        <i class="fa-solid fa-user input-icon"></i>
+        <input type="text" id="nameInput" placeholder="e.g. Ayush Gupta" autocomplete="name" />
+      </div>
+      <span class="input-error hidden" id="nameError">Name must be at least 3 letters (letters and spaces only).</span>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="batchInput">Batch / Class</label>
+      <div class="input-wrapper">
+        <i class="fa-solid fa-graduation-cap input-icon"></i>
+        <input type="text" id="batchInput" placeholder="e.g. BCA 3rd Year" />
+      </div>
+      <span class="input-error hidden" id="batchError">Please enter your batch / class.</span>
+    </div>
+  </div>
+
+  <div class="sticky-cta">
+    <button class="btn-primary" onclick="continueFromS3()" id="s3Btn">
+      Continue <i class="fa-solid fa-arrow-right"></i>
+    </button>
+  </div>
+</div>
+
+<!-- ================================================================
+     SCREEN 4 — TEAM SETUP (Quiz / Both only)
+================================================================ -->
+<div class="screen" id="s4">
+  <div class="nav-bar">
+    <button class="nav-back" onclick="navigate('s3')" aria-label="Back">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <div class="nav-info">
+      <div class="nav-step">Step 3 of 4</div>
+      <div class="nav-title">Team Setup</div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
+  </div>
+
+  <div class="screen-scroll">
+    <h2 class="screen-title" style="margin-top:16px;">Build your quiz team</h2>
+    <p class="screen-subtitle">2–3 students per team. You are the team captain.</p>
+
+    <div class="input-group">
+      <label class="input-label" for="teamNameInput">Team Name</label>
+      <div class="input-wrapper">
+        <i class="fa-solid fa-shield input-icon"></i>
+        <input type="text" id="teamNameInput" placeholder="e.g. EcoWarriors" />
+      </div>
+      <span class="input-error hidden" id="teamNameError">Please enter a team name.</span>
+    </div>
+
+    <div class="section-title">Team Members</div>
+
+    <!-- Member 1 — Captain (read-only) -->
+    <div class="member-card member-card-captain">
+      <div class="member-card-header">
+        <div class="member-icon captain">
+          <i class="fa-solid fa-crown"></i>
+        </div>
+        <div>
+          <div class="member-label">Member 1</div>
+          <div class="member-name" id="m1NameDisplay">—</div>
+          <div class="member-batch" id="m1BatchDisplay">—</div>
+        </div>
+        <span class="captain-badge">Captain</span>
+      </div>
+    </div>
+
+    <!-- Member 2 -->
+    <div class="member-card">
+      <div class="member-card-header">
+        <div class="member-icon">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <div>
+          <div class="member-label">Member 2 <span style="color:var(--error)">*</span></div>
+        </div>
+      </div>
+      <div class="member-inputs">
+        <div class="input-group">
+          <div class="input-wrapper">
+            <i class="fa-solid fa-user input-icon"></i>
+            <input type="text" id="m2NameInput" placeholder="Full Name" />
+          </div>
+          <span class="input-error hidden" id="m2NameError">Member 2 name is required.</span>
+        </div>
+        <div class="input-group">
+          <div class="input-wrapper">
+            <i class="fa-solid fa-graduation-cap input-icon"></i>
+            <input type="text" id="m2BatchInput" placeholder="Batch / Class" />
+          </div>
+          <span class="input-error hidden" id="m2BatchError">Member 2 batch is required.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add 3rd member button -->
+    <button class="btn-dashed" id="addM3Btn" onclick="toggleMember3(true)" style="margin-bottom:12px;">
+      <i class="fa-solid fa-user-plus"></i> + Add 3rd Member (Optional)
+    </button>
+
+    <!-- Member 3 (hidden by default) -->
+    <div class="member-card hidden" id="member3Card" style="transition:all 0.25s ease;">
+      <div class="member-card-header">
+        <div class="member-icon">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <div>
+          <div class="member-label">Member 3 (Optional)</div>
+        </div>
+        <button class="member-remove" onclick="toggleMember3(false)">
+          <i class="fa-solid fa-trash"></i> Remove
+        </button>
+      </div>
+      <div class="member-inputs">
+        <div class="input-group">
+          <div class="input-wrapper">
+            <i class="fa-solid fa-user input-icon"></i>
+            <input type="text" id="m3NameInput" placeholder="Full Name" />
+          </div>
+          <span class="input-error hidden" id="m3NameError">Both name and batch required if adding a 3rd member.</span>
+        </div>
+        <div class="input-group">
+          <div class="input-wrapper">
+            <i class="fa-solid fa-graduation-cap input-icon"></i>
+            <input type="text" id="m3BatchInput" placeholder="Batch / Class" />
+          </div>
+          <span class="input-error hidden" id="m3BatchError">Both name and batch required if adding a 3rd member.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sticky-cta">
+    <button class="btn-primary" onclick="continueFromS4()" id="s4Btn">
+      Continue <i class="fa-solid fa-arrow-right"></i>
+    </button>
+  </div>
+</div>
+
+<!-- ================================================================
+     SCREEN 5 — REVIEW & SUBMIT
+================================================================ -->
+<div class="screen" id="s5">
+  <div class="nav-bar">
+    <button class="nav-back" id="s5BackBtn" onclick="goBackFromS5()" aria-label="Back">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <div class="nav-info">
+      <div class="nav-step">Step 4 of 4</div>
+      <div class="nav-title">Review &amp; Submit</div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+  </div>
+
+  <div class="screen-scroll">
+    <h2 class="screen-title" style="margin-top:16px;">Review your entry</h2>
+    <p class="screen-subtitle">Check all details before submitting. You can edit below.</p>
+
+    <!-- Competition chip -->
+    <div style="margin-bottom:16px;">
+      <span class="chip" id="reviewCompChip"></span>
+    </div>
+
+    <!-- Your Details -->
+    <div class="review-card">
+      <div class="review-card-header">
+        <div class="review-card-title">Your Details</div>
+        <button class="btn-edit" id="editDetailsBtn" onclick="navigate('s3')">
+          <i class="fa-solid fa-pen"></i> Edit
+        </button>
+      </div>
+      <div class="review-row">
+        <span class="review-row-label">Full Name</span>
+        <span class="review-row-value" id="reviewName">—</span>
+      </div>
+      <div class="review-row">
+        <span class="review-row-label">Batch</span>
+        <span class="review-row-value" id="reviewBatch">—</span>
+      </div>
+
+    </div>
+
+    <!-- Team (conditional) -->
+    <div class="review-card" id="reviewTeamCard">
+      <div class="review-card-header">
+        <div class="review-card-title">Team</div>
+        <button class="btn-edit" onclick="navigate('s4')">
+          <i class="fa-solid fa-pen"></i> Edit
+        </button>
+      </div>
+      <div class="review-row">
+        <span class="review-row-label">Team Name</span>
+        <span class="review-row-value" id="reviewTeamName">—</span>
+      </div>
+      <div class="divider"></div>
+      <div class="review-member-row">
+        <i class="fa-solid fa-crown" style="color:var(--amber);"></i>
+        <div>
+          <div class="review-member-name" id="reviewM1">—</div>
+          <div style="font-size:11px;color:var(--secondary);">Captain</div>
+        </div>
+        <span class="review-member-batch" id="reviewM1Batch">—</span>
+      </div>
+      <div class="review-member-row">
+        <i class="fa-solid fa-user"></i>
+        <div>
+          <div class="review-member-name" id="reviewM2">—</div>
+        </div>
+        <span class="review-member-batch" id="reviewM2Batch">—</span>
+      </div>
+      <div class="review-member-row hidden" id="reviewM3Row">
+        <i class="fa-solid fa-user"></i>
+        <div>
+          <div class="review-member-name" id="reviewM3">—</div>
+        </div>
+        <span class="review-member-batch" id="reviewM3Batch">—</span>
+      </div>
+    </div>
+
+    <!-- Deadline chip -->
+    <div class="deadline-chip" style="margin-bottom:24px;">
+      <i class="fa-solid fa-clock" style="color:var(--amber);"></i>
+      Registration closes <strong>30 May 2026</strong>
+    </div>
+  </div>
+
+  <div class="sticky-cta">
+    <button class="btn-primary" onclick="submitEntry()" id="submitBtn">
+      <i class="fa-solid fa-paper-plane"></i> Submit Entry
+    </button>
+  </div>
+</div>
+
+<!-- ================================================================
+     SCREEN 6 — SUCCESS + CONFIRMATION CARD
+================================================================ -->
+<div class="screen" id="s6">
+  <div class="success-hero">
+    <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+    <h1 class="success-title">You're In! 🌿</h1>
+    <p class="success-sub">Your registration is confirmed.<br />See you on 5th June 2026!</p>
+  </div>
+
+  <!-- Wave into card area -->
+  <div class="wave-divider" style="background:var(--bg);">
+    <svg viewBox="0 0 430 36" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,18 C80,36 220,0 430,18 L430,0 L0,0 Z" fill="#2D5A27"/>
+      <path d="M0,28 C120,8 300,45 430,26 L430,36 L0,36 Z" fill="#F5F0E8"/>
+    </svg>
+  </div>
+
+  <div style="padding:0 20px 120px;background:var(--bg);">
+    <!-- Confirmation Card -->
+    <div class="confirm-card" id="confirmCard">
+      <i class="fa-solid fa-leaf confirm-leaf"></i>
+      <div class="confirm-card-band"></div>
+      <div class="confirm-card-head">
+        <i class="fa-solid fa-leaf"></i>
+        <div class="org">
+          <div class="org-event">World Environment Day 2026</div>
+          <div class="org-college">Jagran College of Arts, Science &amp; Commerce</div>
+        </div>
+      </div>
+      <div class="confirm-card-body">
+        <div class="confirm-row"><span class="confirm-label">Name</span><span class="confirm-value" id="c6Name">—</span></div>
+        <div class="confirm-row"><span class="confirm-label">Batch</span><span class="confirm-value" id="c6Batch">—</span></div>
+
+        <div class="confirm-row"><span class="confirm-label">Competition</span><span class="confirm-value" id="c6Comp">—</span></div>
+        <div class="confirm-row" id="c6TeamRow"><span class="confirm-label">Team</span><span class="confirm-value" id="c6Team">—</span></div>
+      </div>
+      <div class="confirm-card-footer">
+        <div class="confirm-status"><i class="fa-solid fa-circle-check"></i> Entry Confirmed</div>
+        <div class="confirm-timestamp" id="c6Time">—</div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <button class="btn-ghost" onclick="openPassModal()" style="margin-bottom:12px;">
+      <i class="fa-solid fa-ticket"></i> Get Your Pass
+    </button>
+
+  </div>
+</div>
+
+<!-- ================================================================
+     SCREEN SX — ALREADY REGISTERED
+================================================================ -->
+<div class="screen" id="sx">
+  <div class="special-hero amber-hero">
+    <i class="fa-solid fa-circle-check special-icon" style="animation: scaleIn 0.5s ease both;"></i>
+    <h1 class="special-title">You're Already Registered! 🌿</h1>
+    <p class="special-sub">We already have your entry for<br />World Environment Day 2026.</p>
+  </div>
+
+  <div class="wave-divider" style="background:var(--bg);">
+    <svg viewBox="0 0 430 36" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,18 C80,36 220,0 430,18 L430,0 L0,0 Z" fill="#D4A017"/>
+      <path d="M0,28 C120,8 300,45 430,26 L430,36 L0,36 Z" fill="#F5F0E8"/>
+    </svg>
+  </div>
+
+  <div style="padding:0 20px 120px;background:var(--bg);">
+    <p style="font-size:14px;color:var(--secondary);margin-bottom:16px;text-align:center;">No need to register again. Your details are confirmed below.</p>
+
+    <div class="confirm-card" id="sxCard">
+      <i class="fa-solid fa-leaf confirm-leaf"></i>
+      <div class="confirm-card-band amber"></div>
+      <div class="confirm-card-head">
+        <i class="fa-solid fa-leaf" style="color:var(--amber);"></i>
+        <div class="org">
+          <div class="org-event">Your Registration Details</div>
+          <div class="org-college">World Environment Day 2026</div>
+        </div>
+      </div>
+      <div class="confirm-card-body">
+        <div class="confirm-row"><span class="confirm-label">Name</span><span class="confirm-value" id="sxName">—</span></div>
+        <div class="confirm-row"><span class="confirm-label">Batch</span><span class="confirm-value" id="sxBatch">—</span></div>
+        <div class="confirm-row"><span class="confirm-label">Competition</span><span class="confirm-value" id="sxComp">—</span></div>
+        <div class="confirm-row" id="sxTeamRow"><span class="confirm-label">Team</span><span class="confirm-value" id="sxTeam">—</span></div>
+        <div class="confirm-row"><span class="confirm-label">Registered</span><span class="confirm-value" id="sxTime">—</span></div>
+      </div>
+      <div class="confirm-card-footer">
+        <div class="confirm-status" style="color:var(--amber);"><i class="fa-solid fa-circle-check" style="color:var(--amber);"></i> Already Registered</div>
+      </div>
+    </div>
+
+    <button class="btn-ghost" onclick="openPassModal('sx')" style="margin-bottom:12px;">
+      <i class="fa-solid fa-ticket"></i> Get Your Pass
+    </button>
+    <p style="text-align:center;font-size:12px;color:var(--secondary);margin-top:8px;line-height:1.5;">
+      📸 Long press or take a screenshot to save your confirmation.
+    </p>
+  </div>
+</div>
+
+<!-- ================================================================
+     SCREEN SY — ADDED AS TEAM MEMBER
+================================================================ -->
+<div class="screen" id="sy">
+  <div class="special-hero green-hero">
+    <i class="fa-solid fa-users special-icon" style="animation: scaleIn 0.5s ease both;"></i>
+    <h1 class="special-title">You're Part of the Team! 🌿</h1>
+    <p class="special-sub" id="syCaptainMsg">Your team captain has already added you.</p>
+  </div>
+
+  <div class="wave-divider" style="background:var(--bg);">
+    <svg viewBox="0 0 430 36" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,18 C80,36 220,0 430,18 L430,0 L0,0 Z" fill="#2D5A27"/>
+      <path d="M0,28 C120,8 300,45 430,26 L430,36 L0,36 Z" fill="#F5F0E8"/>
+    </svg>
+  </div>
+
+  <div style="padding:0 20px 120px;background:var(--bg);">
+    <!-- Team card -->
+    <div class="confirm-card" id="syCard">
+      <i class="fa-solid fa-leaf confirm-leaf"></i>
+      <div class="confirm-card-band"></div>
+      <div class="confirm-card-head">
+        <i class="fa-solid fa-users"></i>
+        <div class="org">
+          <div class="org-event">Your Team Registration</div>
+          <div class="org-college">World Environment Day 2026</div>
+        </div>
+      </div>
+      <div class="confirm-card-body">
+        <div class="confirm-row"><span class="confirm-label">Your Name</span><span class="confirm-value" id="syMemberName">—</span></div>
+        <div class="confirm-row"><span class="confirm-label">Your Batch</span><span class="confirm-value" id="syMemberBatch">—</span></div>
+        <div class="confirm-row"><span class="confirm-label">Team Name</span><span class="confirm-value" id="syTeamName">—</span></div>
+        <div class="confirm-row"><span class="confirm-label">Captain</span><span class="confirm-value" id="syCaptainName">—</span></div>
+        <div class="confirm-row"><span class="confirm-label">Competition</span><span class="confirm-value" id="syComp">—</span></div>
+      </div>
+      <div class="confirm-card-footer">
+        <div class="confirm-status"><i class="fa-solid fa-circle-check"></i> Registered via Team</div>
+      </div>
+    </div>
+
+    <!-- Event details -->
+    <div class="event-detail-card">
+      <div class="event-detail-title">Event Details</div>
+      <div class="event-detail-row">
+        <span>📅</span>
+        <p><strong>5th June 2026</strong> — World Environment Day</p>
+      </div>
+      <div class="event-detail-row">
+        <span>🏫</span>
+        <p>Jagran College of Arts, Science &amp; Commerce</p>
+      </div>
+      <div class="event-detail-row">
+        <span>🧠</span>
+        <p><strong>Quiz Competition</strong> — 3 Rounds, Rapid Fire Buzzer</p>
+      </div>
+      <div class="event-detail-row">
+        <span>⏰</span>
+        <p>Registration: <strong style="color:var(--primary);">Already done!</strong></p>
+      </div>
+    </div>
+
+    <button class="btn-ghost" onclick="openPassModal('sy')" style="margin-bottom:12px;">
+      <i class="fa-solid fa-ticket"></i> Get Your Pass
+    </button>
+    <button class="btn-ghost" onclick="openSheet('quiz')" style="margin-bottom:12px;">
+      <i class="fa-solid fa-book-open"></i> View Quiz Rules
+    </button>
+    <p style="text-align:center;font-size:12px;color:var(--secondary);margin-top:8px;line-height:1.5;">
+      📸 Long press or take a screenshot to save your registration.
+    </p>
+  </div>
+</div>
+
+<!-- ================================================================
+     PASS MODAL — Popup with downloadable pass
+================================================================ -->
+<div class="pass-backdrop hidden" id="passBackdrop" onclick="closePassModal(event)"></div>
+
+<div class="pass-modal hidden" id="passModal">
+  <button class="pass-modal-close" onclick="closePassModal()" aria-label="Close">
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+
+  <div class="pass-title-bar">
+    <i class="fa-solid fa-ticket"></i>
+    <span>Your Event Pass</span>
+  </div>
+
+  <!-- The downloadable pass card -->
+  <div class="pass-card" id="passCard">
+    <!-- Decorative top band -->
+    <div class="pass-band"></div>
+
+    <!-- Leaf watermark -->
+    <i class="fa-solid fa-leaf pass-leaf-bg"></i>
+
+    <!-- Header -->
+    <div class="pass-header">
+      <div class="pass-header-top">
+        <i class="fa-solid fa-leaf pass-header-icon"></i>
+        <div>
+          <div class="pass-event">World Environment Day 2026</div>
+          <div class="pass-college">Jagran College of Arts, Science &amp; Commerce</div>
+        </div>
+      </div>
+      <div class="pass-nss-tag">
+        <i class="fa-solid fa-hand-holding-heart"></i>
+        NSS — "Not Me But You"
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="pass-divider">
+      <svg viewBox="0 0 300 12" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="6" x2="300" y2="6" stroke="#C4874A" stroke-width="1" stroke-dasharray="6 6" opacity="0.3"/>
+      </svg>
+    </div>
+
+    <!-- Body -->
+    <div class="pass-body" id="passBody">
+      <div class="pass-row">
+        <span class="pass-label"><i class="fa-solid fa-user"></i> Name</span>
+        <span class="pass-value" id="passName">—</span>
+      </div>
+      <div class="pass-row">
+        <span class="pass-label"><i class="fa-solid fa-graduation-cap"></i> Batch</span>
+        <span class="pass-value" id="passBatch">—</span>
+      </div>
+      <div class="pass-row">
+        <span class="pass-label"><i class="fa-solid fa-trophy"></i> Event</span>
+        <span class="pass-value" id="passComp">—</span>
+      </div>
+      <div class="pass-row" id="passTeamRow">
+        <span class="pass-label"><i class="fa-solid fa-people-group"></i> Team</span>
+        <span class="pass-value" id="passTeam">—</span>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="pass-divider">
+      <svg viewBox="0 0 300 12" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="6" x2="300" y2="6" stroke="#C4874A" stroke-width="1" stroke-dasharray="6 6" opacity="0.3"/>
+      </svg>
+    </div>
+
+    <!-- Footer -->
+    <div class="pass-footer">
+      <div class="pass-confirmed">
+        <i class="fa-solid fa-circle-check"></i> Entry Confirmed
+      </div>
+      <div class="pass-date" id="passDate">—</div>
+    </div>
+
+    <!-- Bottom NSS stripe -->
+    <div class="pass-nss-stripe">
+      <i class="fa-solid fa-leaf"></i>
+      Not Me But You
+      <i class="fa-solid fa-leaf"></i>
+    </div>
+  </div>
+
+  <!-- Action buttons -->
+  <button class="btn-primary pass-download-btn" id="downloadPassBtn" onclick="downloadPass()">
+    <i class="fa-solid fa-download"></i> Download Pass
+  </button>
+  <p class="pass-hint">
+    <i class="fa-solid fa-camera"></i>
+    You can also take a screenshot and share!
+  </p>
+</div>
+
+<!-- ================================================================
+     JAVASCRIPT
+================================================================ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/script.js"></script>
+
+</body>
+</html>
