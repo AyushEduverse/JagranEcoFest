@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JagranEcoFest — Admin Panel</title>
+  <meta name="description" content="Admin dashboard for JagranEcoFest registrations." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Admin Styles (does NOT import style.css to avoid 430px conflict) -->
+  <link rel="stylesheet" href="css/admin-style.css" />
+
+  <!-- html2pdf.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+<!-- ============================================================
+     A1 — LOGIN SCREEN
+============================================================ -->
+<div id="loginScreen" class="admin-login-screen">
+  <div class="login-hero">
+    <div class="login-icon-wrap">
+      <i class="fa-solid fa-lock"></i>
+    </div>
+    <h1 class="login-title">Admin Panel</h1>
+    <p class="login-subtitle">JagranEcoFest &bull; NSS Access Only</p>
+
+    <form class="login-form" id="loginForm" onsubmit="handleLogin(event)">
+      <label class="input-label" for="loginPassword">Password</label>
+      <div class="input-wrapper">
+        <i class="fa-solid fa-key input-icon"></i>
+        <input type="password" id="loginPassword" placeholder="Enter admin password" autocomplete="current-password" />
+        <button type="button" class="password-toggle" onclick="togglePasswordVisibility('loginPassword', this)" tabindex="-1" aria-label="Toggle password visibility">
+          <i class="fa-regular fa-eye"></i>
+        </button>
+      </div>
+      <div id="loginError" class="login-error hidden">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span>Invalid password. Please try again.</span>
+      </div>
+      <button type="submit" class="login-btn" id="loginBtn">
+        <i class="fa-solid fa-unlock-keyhole"></i>
+        Unlock Dashboard
+      </button>
+    </form>
+
+    <a href="index.html" class="login-back-link">
+      <i class="fa-solid fa-arrow-left"></i>
+      Back to Registration
+    </a>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     ADMIN APP (Visible after login)
+============================================================ -->
+<div id="adminApp" class="admin-app hidden">
+
+  <!-- ===== ADMIN HEADER ===== -->
+  <header class="admin-header">
+    <div class="admin-header-left">
+      <div class="admin-header-icon" style="background: transparent;">
+        <img src="assets/JagranEcoFest.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;" />
+      </div>
+      <div class="admin-header-info">
+        <div class="admin-header-title">JagranEcoFest</div>
+        <div class="admin-header-sub">NSS Admin Dashboard</div>
+      </div>
+    </div>
+    <div class="admin-header-right">
+      <button class="admin-header-btn" onclick="refreshCurrentTab()" id="refreshBtn" title="Refresh">
+        <i class="fa-solid fa-rotate"></i>
+        <span class="hide-mobile">Refresh</span>
+      </button>
+      <button class="admin-header-btn danger" onclick="handleLogout()" title="Logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span class="hide-mobile">Logout</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== TAB BAR ===== -->
+  <div class="admin-hdr-content">
+    <nav class="admin-tabs" role="tablist">
+      <button class="admin-tab active" data-tab="dashboard" onclick="adminNavigate('dashboard')" role="tab">
+        <i class="fa-solid fa-chart-simple"></i> Dashboard
+      </button>
+      <button class="admin-tab" data-tab="registrations" onclick="adminNavigate('registrations')" role="tab">
+        <i class="fa-solid fa-list"></i> Registrations
+      </button>
+      <button class="admin-tab" data-tab="export" onclick="adminNavigate('export')" role="tab">
+        <i class="fa-solid fa-download"></i> Export
+      </button>
+      <button class="admin-tab" data-tab="settings" onclick="adminNavigate('settings')" role="tab">
+        <i class="fa-solid fa-gear"></i> Settings
+      </button>
+    </nav>
+  </div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="admin-layout">
+
+    <!-- ============================================================
+         A2 — DASHBOARD PANEL
+    ============================================================ -->
+    <div id="panel-dashboard" class="admin-panel active">
+      <div class="panel-header">
+        <h2 class="panel-title"><i class="fa-solid fa-chart-simple"></i> Dashboard</h2>
+        <div class="panel-actions">
+          <button class="btn-sm ghost" onclick="loadDashboard()">
+            <i class="fa-solid fa-rotate"></i> Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats Cards Row (4) -->
+      <div class="stats-grid" id="statsGrid">
+        <!-- Skeletons rendered by JS on load, but provide fallback -->
+        <div class="stat-card-skeleton"><div class="skeleton-circle"></div><div class="skeleton-lines"><div class="skeleton-line w-60"></div><div class="skeleton-line w-80"></div></div></div>
+        <div class="stat-card-skeleton"><div class="skeleton-circle"></div><div class="skeleton-lines"><div class="skeleton-line w-60"></div><div class="skeleton-line w-80"></div></div></div>
+        <div class="stat-card-skeleton"><div class="skeleton-circle"></div><div class="skeleton-lines"><div class="skeleton-line w-60"></div><div class="skeleton-line w-80"></div></div></div>
+        <div class="stat-card-skeleton"><div class="skeleton-circle"></div><div class="skeleton-lines"><div class="skeleton-line w-60"></div><div class="skeleton-line w-80"></div></div></div>
+      </div>
+
+      <!-- Second Row (2 cards) -->
+      <div class="stats-grid-2" id="statsGrid2">
+        <div class="stat-card-skeleton"><div class="skeleton-circle"></div><div class="skeleton-lines"><div class="skeleton-line w-60"></div><div class="skeleton-line w-80"></div></div></div>
+        <div class="stat-card-skeleton"><div class="skeleton-circle"></div><div class="skeleton-lines"><div class="skeleton-line w-60"></div><div class="skeleton-line w-80"></div></div></div>
+      </div>
+
+      <!-- Trend Chart -->
+      <div class="trend-section" id="trendSection">
+        <div class="trend-header">
+          <h3 class="trend-title"><i class="fa-solid fa-chart-line" style="margin-right:6px;color:var(--secondary);"></i> Registration Trend (Last 14 Days)</h3>
+        </div>
+        <div class="trend-chart" id="trendChart">
+          <div class="trend-empty">
+            <i class="fa-solid fa-chart-simple"></i>
+            <span>Loading trend data…</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Registrations -->
+      <div class="recent-section">
+        <div class="recent-header">
+          <h3 class="recent-title"><i class="fa-solid fa-clock-rotate-left" style="margin-right:6px;color:var(--secondary);"></i> Recent Registrations</h3>
+          <span class="recent-link" onclick="adminNavigate('registrations')">
+            View All <i class="fa-solid fa-arrow-right"></i>
+          </span>
+        </div>
+        <div id="recentTableWrap">
+          <table class="recent-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Batch</th>
+                <th>Competition</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody id="recentBody">
+              <tr><td colspan="4" class="recent-empty">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ============================================================
+         A3 — REGISTRATIONS PANEL
+    ============================================================ -->
+    <div id="panel-registrations" class="admin-panel">
+      <div class="panel-header">
+        <h2 class="panel-title"><i class="fa-solid fa-list"></i> All Registrations</h2>
+        <div class="panel-actions">
+          <button class="btn-sm accent" onclick="triggerExport()">
+            <i class="fa-solid fa-download"></i> Export CSV
+          </button>
+          <button class="btn-sm ghost" onclick="loadRegistrations(1)">
+            <i class="fa-solid fa-rotate"></i> Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- Search + Filter Bar -->
+      <div class="search-filter-bar">
+        <div class="admin-search">
+          <i class="fa-solid fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Search name or batch…" oninput="handleSearchInput()" />
+        </div>
+        <select class="filter-select" id="compFilter" onchange="handleFilterChange()">
+          <option value="all">All Competitions</option>
+          <option value="poster">Poster &amp; Slogan</option>
+          <option value="quiz">Quiz</option>
+          <option value="both">Both</option>
+        </select>
+        <select class="filter-select" id="batchFilter" onchange="handleFilterChange()">
+          <option value="all">All Batches</option>
+        </select>
+      </div>
+
+      <!-- Results Summary -->
+      <div class="results-summary" id="resultsSummary">
+        Loading registrations… <i class="fa-solid fa-spinner fa-spin"></i>
+      </div>
+
+      <!-- Data Table -->
+      <div class="table-wrap">
+        <table class="admin-table" id="registrationsTable">
+          <thead>
+            <tr>
+              <th scope="col" onclick="handleSort('name')" data-sort="name">
+                Name <i class="fa-solid fa-arrow-up-short-wide"></i>
+              </th>
+              <th scope="col" onclick="handleSort('batch')" data-sort="batch">
+                Batch <i class="fa-solid fa-arrow-up-short-wide"></i>
+              </th>
+              <th scope="col" onclick="handleSort('competition')" data-sort="competition">
+                Competition <i class="fa-solid fa-arrow-up-short-wide"></i>
+              </th>
+              <th scope="col" onclick="handleSort('teamName')" data-sort="teamName">
+                Team <i class="fa-solid fa-arrow-up-short-wide"></i>
+              </th>
+              <th scope="col" onclick="handleSort('timestamp')" data-sort="timestamp">
+                Registered <i class="fa-solid fa-arrow-up-short-wide"></i>
+              </th>
+              <th scope="col" style="text-align:center;width:100px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="registrationsBody">
+            <!-- Skeleton rows -->
+            <tr class="skeleton-row"><td><div class="skeleton-bar w-120"></div></td><td><div class="skeleton-bar w-80"></div></td><td><div class="skeleton-bar w-100"></div></td><td><div class="skeleton-bar w-80"></div></td><td><div class="skeleton-bar w-100"></div></td><td><div class="skeleton-bar w-60"></div></td></tr>
+            <tr class="skeleton-row"><td><div class="skeleton-bar w-120"></div></td><td><div class="skeleton-bar w-80"></div></td><td><div class="skeleton-bar w-100"></div></td><td><div class="skeleton-bar w-80"></div></td><td><div class="skeleton-bar w-100"></div></td><td><div class="skeleton-bar w-60"></div></td></tr>
+            <tr class="skeleton-row"><td><div class="skeleton-bar w-120"></div></td><td><div class="skeleton-bar w-80"></div></td><td><div class="skeleton-bar w-100"></div></td><td><div class="skeleton-bar w-80"></div></td><td><div class="skeleton-bar w-100"></div></td><td><div class="skeleton-bar w-60"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination-wrap" id="paginationWrap">
+        <div class="pagination-info" id="paginationInfo"></div>
+        <div class="pagination" id="pagination"></div>
+        <div class="per-page-select">
+          <span>Show</span>
+          <select id="perPageSelect" onchange="handlePerPageChange()">
+            <option value="20">20</option>
+            <option value="50" selected>50</option>
+            <option value="100">100</option>
+          </select>
+          <span>per page</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ============================================================
+         A5 — EXPORT PANEL
+    ============================================================ -->
+    <div id="panel-export" class="admin-panel">
+      <div class="panel-header">
+        <h2 class="panel-title"><i class="fa-solid fa-download"></i> Export Data</h2>
+      </div>
+
+      <div class="export-section">
+        <div class="export-option-group">
+          <span class="export-label">Format</span>
+          <div class="export-radio-group">
+            <label class="export-radio">
+              <input type="radio" name="exportFormat" value="csv" checked /> CSV
+            </label>
+            <label class="export-radio">
+              <input type="radio" name="exportFormat" value="pdf" /> PDF
+            </label>
+          </div>
+        </div>
+
+        <div class="export-option-group">
+          <span class="export-label">Competition Filter</span>
+          <div class="export-radio-group">
+            <label class="export-radio"><input type="radio" name="exportComp" value="all" checked /> All</label>
+            <label class="export-radio"><input type="radio" name="exportComp" value="poster" /> Poster</label>
+            <label class="export-radio"><input type="radio" name="exportComp" value="quiz" /> Quiz</label>
+            <label class="export-radio"><input type="radio" name="exportComp" value="both" /> Both</label>
+          </div>
+        </div>
+
+        <div class="export-option-group">
+          <span class="export-label">Date Range (Optional)</span>
+          <div class="export-date-row">
+            <div class="export-date-field">
+              <label for="exportDateFrom">From</label>
+              <input type="date" id="exportDateFrom" />
+            </div>
+            <div class="export-date-field">
+              <label for="exportDateTo">To</label>
+              <input type="date" id="exportDateTo" />
+            </div>
+          </div>
+        </div>
+
+        <div class="export-option-group">
+          <span class="export-label">Include Fields</span>
+          <div class="export-check-group">
+            <label class="export-check"><input type="checkbox" id="exportBasic" checked /> Basic Info (Name, Batch, Competition)</label>
+            <label class="export-check"><input type="checkbox" id="exportTeam" checked /> Team Details (Team Name, Members)</label>
+            <label class="export-check"><input type="checkbox" id="exportTimestamps" checked /> Timestamps</label>
+          </div>
+        </div>
+
+        <div class="export-actions">
+          <button class="btn-sm primary" onclick="handleExport()">
+            <i class="fa-solid fa-download"></i> Download
+          </button>
+          <button class="btn-sm ghost" onclick="resetExportOptions()">
+            <i class="fa-solid fa-rotate"></i> Reset
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ============================================================
+         A6 — SETTINGS PANEL
+    ============================================================ -->
+    <div id="panel-settings" class="admin-panel">
+      <div class="panel-header">
+        <h2 class="panel-title"><i class="fa-solid fa-gear"></i> Settings</h2>
+      </div>
+
+      <div class="settings-section">
+        <h3 class="settings-header"><i class="fa-solid fa-calendar"></i> Event Info</h3>
+        <div class="settings-field">
+          <label for="settingsEventName">Event Name</label>
+          <input type="text" id="settingsEventName" value="World Environment Day 2026" />
+        </div>
+        <div class="settings-field">
+          <label for="settingsEventDate">Event Date</label>
+          <input type="text" id="settingsEventDate" value="5th June 2026" />
+        </div>
+        <div class="settings-field">
+          <label for="settingsDeadline">Registration Deadline</label>
+          <input type="text" id="settingsDeadline" value="30 May 2026" />
+        </div>
+        <div class="settings-field">
+          <label for="settingsTagline">Tagline</label>
+          <input type="text" id="settingsTagline" value="Celebrate. Create. Conserve." />
+        </div>
+        <div class="settings-field">
+          <label for="settingsCollege">College Name</label>
+          <input type="text" id="settingsCollege" value="Jagran College of Arts, Science and Commerce" />
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3 class="settings-header"><i class="fa-solid fa-shield"></i> Admin</h3>
+        <div class="settings-field">
+          <label for="settingsPassword">Change Admin Password</label>
+          <div style="position:relative;">
+            <input type="password" id="settingsPassword" placeholder="Leave blank to keep current" style="padding-right:44px;" />
+            <button type="button" class="password-toggle" onclick="togglePasswordVisibility('settingsPassword', this)" tabindex="-1" aria-label="Toggle password visibility" style="color:var(--accent);">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+          <div class="field-hint">Enter a new password to override. Must update Code.gs as well.</div>
+        </div>
+      </div>
+
+      <div class="settings-actions" style="max-width:600px;">
+        <button class="btn-sm primary" onclick="saveSettings()">
+          <i class="fa-solid fa-floppy-disk"></i> Save Settings
+        </button>
+        <button class="btn-sm ghost" onclick="resetSettings()">
+          <i class="fa-solid fa-rotate"></i> Reset to Defaults
+        </button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+
+<!-- ============================================================
+     A4 — DETAIL MODAL
+============================================================ -->
+<div id="detailBackdrop" class="modal-backdrop hidden" onclick="closeDetailModal()"></div>
+
+<div id="detailModal" class="detail-modal hidden">
+  <button class="modal-close" onclick="closeDetailModal()">
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+  <div class="modal-body" id="detailBody">
+    <div class="detail-header">
+      <div class="detail-header-info">
+        <div class="detail-name" id="detailName">—</div>
+        <div class="detail-chip-row" id="detailChipRow"></div>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-section-title"><i class="fa-solid fa-circle-info"></i> Registration Details</div>
+      <div class="detail-row">
+        <span class="detail-label"><i class="fa-solid fa-user"></i> Full Name</span>
+        <span class="detail-value" id="detailFullName">—</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label"><i class="fa-solid fa-graduation-cap"></i> Batch</span>
+        <span class="detail-value" id="detailBatch">—</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label"><i class="fa-solid fa-trophy"></i> Competition</span>
+        <span class="detail-value" id="detailComp">—</span>
+      </div>
+      <div class="detail-row" id="detailTeamRow">
+        <span class="detail-label"><i class="fa-solid fa-people-group"></i> Team Name</span>
+        <span class="detail-value" id="detailTeamName">—</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label"><i class="fa-solid fa-clock"></i> Registered</span>
+        <span class="detail-value" id="detailTime">—</span>
+      </div>
+    </div>
+
+    <div class="detail-section" id="detailTeamSection">
+      <div class="detail-section-title"><i class="fa-solid fa-users"></i> Team Members</div>
+      <div id="detailTeamMembers"></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-sm primary" onclick="printDetailCard()">
+        <i class="fa-solid fa-print"></i> Print Card
+      </button>
+      <button class="btn-sm danger" onclick="openDeleteConfirmFromDetail()">
+        <i class="fa-solid fa-trash"></i> Delete Entry
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     DELETE CONFIRMATION MODAL
+============================================================ -->
+<div id="deleteBackdrop" class="modal-backdrop hidden" onclick="closeDeleteConfirm()"></div>
+
+<div id="deleteModal" class="confirm-modal hidden">
+  <div class="confirm-icon">
+    <i class="fa-solid fa-trash-can"></i>
+  </div>
+  <h3 class="confirm-title">Delete Registration?</h3>
+  <p class="confirm-text">
+    Are you sure you want to delete the registration for<br />
+    <strong id="deleteName">—</strong>?
+    <br /><br />
+    This action <strong>cannot be undone</strong>.
+  </p>
+  <div class="confirm-actions">
+    <button class="btn-sm danger" onclick="confirmDelete()" id="confirmDeleteBtn">
+      <i class="fa-solid fa-trash"></i> Yes, Delete
+    </button>
+    <button class="btn-sm ghost" onclick="closeDeleteConfirm()">
+      Cancel
+    </button>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     ADMIN TOAST
+============================================================ -->
+<div id="adminToastContainer" class="admin-toast-container"></div>
+
+
+<!-- ============================================================
+     LOADING OVERLAY
+============================================================ -->
+<div id="loadingOverlay" class="loading-overlay hidden">
+  <i class="fa-solid fa-spinner fa-spin"></i>
+  <p id="loadingOverlayText">Loading…</p>
+</div>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<!-- ============================================================
+     PDF EXPORT CONTAINER (Hidden)
+============================================================ -->
+<div id="pdf-export-container" style="display: none;"></div>
+
+<script src="js/admin.js"></script>
+
+</body>
+</html>
