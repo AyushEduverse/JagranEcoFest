@@ -245,6 +245,9 @@ JagranEcoFest/
 ├── 📄 LICENSE                    # MIT License — Starverse
 ├── 📖 README.md                  # Project documentation (this file)
 │
+├── 🗄️ backend/
+│   └── Code.gs                   # Google Apps Script (doGet / doPost)
+│
 ├── 🎨 css/
 │   ├── style.css                 # Design system, components, screens (student)
 │   └── admin-style.css           # Admin panel styles (desktop-first)

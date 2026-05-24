@@ -89,22 +89,30 @@ async function adminGet(action, extraParams) {
 }
 
 /**
- * Make a POST admin request.
- * All admin mutations use POST for security.
+ * Make an admin request using GET with query parameters.
+ * Google Apps Script blocks POST CORS from localhost — GET works.
+ * All data is passed as URL query params (flat key-value pairs).
  */
 async function adminPost(action, data) {
   if (!data) data = {};
-  const res = await fetch(APPS_SCRIPT_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify({
-      mode: 'admin',
-      action: action,
-      password: adminState.password,
-      ...data,
-    }),
-  });
-  const text = await res.text();
+  var params = {
+    mode: 'admin',
+    action: action,
+  };
+  // Only include password if already authenticated
+  if (adminState.password) {
+    params.password = adminState.password;
+  }
+  // Merge data into params (flat key-value pairs only)
+  for (var key in data) {
+    if (data.hasOwnProperty(key)) {
+      params[key] = data[key];
+    }
+  }
+  var qs = new URLSearchParams(params).toString();
+  var url = APPS_SCRIPT_URL + '?' + qs;
+  var res = await fetch(url);
+  var text = await res.text();
   try {
     return JSON.parse(text);
   } catch (err) {
@@ -1133,7 +1141,7 @@ async function saveSettings() {
     collegeName: document.getElementById('settingsCollege').value.trim(),
   };
 
-  // Include password if user entered one
+  // Include password if user entered one — flattened into top-level params
   var newPassword = document.getElementById('settingsPassword').value.trim();
   if (newPassword) {
     settings.adminPassword = newPassword;
@@ -1142,7 +1150,8 @@ async function saveSettings() {
   showLoadingOverlay('Saving settings\u2026');
 
   try {
-    var res = await adminPost('update-settings', { settings: settings });
+    // Pass settings fields directly (not nested) for GET query params
+    var res = await adminPost('update-settings', settings);
     hideLoadingOverlay();
     if (res.status === 'success') {
       showAdminToast('Settings saved successfully');
