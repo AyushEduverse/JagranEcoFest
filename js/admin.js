@@ -854,25 +854,7 @@ async function downloadExportPDF(comp) {
       return;
     }
 
-    // Date range filter
-    var dateFrom = document.getElementById('exportDateFrom').value;
-    var dateTo   = document.getElementById('exportDateTo').value;
     var filtered = res.data.rows || [];
-
-    if (dateFrom) {
-      var fromTime = new Date(dateFrom).getTime();
-      filtered = filtered.filter(function(r) {
-        var t = new Date(r.timestamp).getTime();
-        return !isNaN(t) && t >= fromTime;
-      });
-    }
-    if (dateTo) {
-      var toTime = new Date(dateTo).getTime() + 86400000;
-      filtered = filtered.filter(function(r) {
-        var t = new Date(r.timestamp).getTime();
-        return !isNaN(t) && t <= toTime;
-      });
-    }
 
     if (filtered.length === 0) {
       showAdminToast('No registrations to export', 'error');
@@ -1121,8 +1103,7 @@ function resetExportOptions() {
   document.getElementById('exportBasic').checked = true;
   document.getElementById('exportTeam').checked = true;
   document.getElementById('exportTimestamps').checked = true;
-  document.getElementById('exportDateFrom').value = '';
-  document.getElementById('exportDateTo').value = '';
+
 }
 
 /* ------------------------------------------------------------------
@@ -1152,6 +1133,12 @@ async function saveSettings() {
     collegeName: document.getElementById('settingsCollege').value.trim(),
   };
 
+  // Include password if user entered one
+  var newPassword = document.getElementById('settingsPassword').value.trim();
+  if (newPassword) {
+    settings.adminPassword = newPassword;
+  }
+
   showLoadingOverlay('Saving settings\u2026');
 
   try {
@@ -1159,6 +1146,8 @@ async function saveSettings() {
     hideLoadingOverlay();
     if (res.status === 'success') {
       showAdminToast('Settings saved successfully');
+      // Clear password field after successful save
+      document.getElementById('settingsPassword').value = '';
     } else {
       showAdminToast(res.message || 'Failed to save settings', 'error');
     }

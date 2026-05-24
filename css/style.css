@@ -38,7 +38,7 @@
       padding: 0;
       -webkit-tap-highlight-color: transparent;
     }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; touch-action: manipulation; -ms-touch-action: manipulation; }
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--bg);
@@ -126,7 +126,7 @@
 
     /* Image-based hero (redesigned S1) — exact 16:9 landscape image fit */
     .hero.hero-image {
-      background-image: url('../assets/Environment-day.jpg');
+      background-image: url('../assets/screenshots/Environment-day.jpg');
       background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
